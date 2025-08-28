@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "backend/main.py": {
+      "runtime": "@vercel/python@4.0.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "env": {
+    "PYTHONPATH": "backend"
+  }
+}

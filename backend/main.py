@@ -1,42 +1,35 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import logging
+from mangum import Mangum
+import os
 
 from src.core.config import settings
 from src.api.routes.analyze import router as analyze_router
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Cria a instância principal do FastAPI
+# Criar app FastAPI
 app = FastAPI(
     title=settings.APP_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-# Configuração do CORS
+# CORS para Vercel
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],  # Para Vercel
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Inclui o roteador da nossa API
+# Incluir rotas
 app.include_router(analyze_router, prefix=settings.API_V1_STR)
 
-@app.on_event("startup")
-async def startup_event():
-    logger.info("🚀 Servidor iniciado com sucesso!")
-    logger.info(f"📚 Documentação disponível em: http://localhost:5001/docs")
+# Handler para Vercel Serverless
+handler = Mangum(app, lifespan="off")
 
-@app.on_event("shutdown")
-async def shutdown_event():
-    logger.info("🛑 Servidor sendo encerrado...")
-
-# Ponto de entrada para rodar com uvicorn
+# Para desenvolvimento local
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
