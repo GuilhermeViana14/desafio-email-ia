@@ -7,8 +7,8 @@ import os
 # Adicionar backend ao path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'backend'))
 
-from ..backend.src.core.config import settings
-from ..backend.src.api.routes.analyze import router as analyze_router
+from src.core.config import settings
+from src.api.routes.analyze import router as analyze_router
 
 # Criar app FastAPI
 app = FastAPI(
