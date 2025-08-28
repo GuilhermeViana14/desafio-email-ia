@@ -13,7 +13,7 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# CORS para Vercel
+# CORS para frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,11 +25,13 @@ app.add_middleware(
 # Incluir rotas
 app.include_router(analyze_router, prefix=settings.API_V1_STR)
 
-# ✅ ADICIONAR APENAS ESTAS 2 LINHAS:
-# Handler para Vercel Serverless
+# Handler para Vercel Serverless (manter para caso queira usar Vercel depois)
 handler = Mangum(app, lifespan="off")
 
-# Para desenvolvimento local
+# Para desenvolvimento local E Hugging Face Spaces
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
+    # Ajustar para HF Spaces (porta 7860) e produção
+    import os
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False)
