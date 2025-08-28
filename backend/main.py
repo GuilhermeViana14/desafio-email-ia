@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum  # ← Adicionar apenas esta linha
+from mangum import Mangum
 
 from src.core.config import settings
 from src.api.routes.analyze import router as analyze_router
@@ -25,11 +25,11 @@ app.add_middleware(
 # Incluir rotas
 app.include_router(analyze_router, prefix=settings.API_V1_STR)
 
-# ← Adicionar apenas estas 2 linhas para Vercel
+# ✅ ADICIONAR APENAS ESTAS 2 LINHAS:
 # Handler para Vercel Serverless
 handler = Mangum(app, lifespan="off")
 
-# Para desenvolvimento local (manter como estava)
+# Para desenvolvimento local
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)
