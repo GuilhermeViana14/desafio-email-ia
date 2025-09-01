@@ -1,4 +1,9 @@
 # Desafio Email IA
+## conta de teste para aplicação web
+link:https://desafio-email-ia.vercel.app
+
+email:emailanalyser32@gmail.com
+senha:EmailAnalyzer12345@
 
 ## Como rodar o projeto
 
