@@ -1,0 +1,124 @@
+/* Container principal da página de recursos */
+.features {
+  min-height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+  margin-top: 10vh;
+}
+
+/* Centraliza o conteúdo */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header da página */
+.analyzer-header {
+  text-align: center;
+  margin-top: 48px;
+  margin-bottom: 24px;
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.zap-overlay {
+  position: absolute;
+  right: -18px;
+  top: 8px;
+  color: #667eea;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(102,126,234,0.08);
+}
+
+.analyzer-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #764ba2;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  color: #374151;
+  margin-bottom: 0;
+}
+
+.highlight {
+  font-weight: 700;
+  background: linear-gradient(135deg, #284ef8, #7f00fd);
+}
+
+/* Cards de recursos */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.stat-item {
+  min-width: 260px;
+  max-width: 260px;
+  height: 180px;
+  background: #fff;
+  color: #374151;
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  padding: 18px 12px;
+}
+
+.stat-item:hover {
+  box-shadow: 0 12px 36px rgba(102,126,234,0.16);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.stat-item strong {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: #764ba2;
+}
+
+.stat-item span {
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .stats-row {
+    gap: 12px;
+  }
+  .stat-item {
+    min-width: 90vw;
+    max-width: 98vw;
+    height: auto;
+    margin: 8px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .analyzer-header h1 {
+    font-size: 1.4rem;
+  }
+  .stat-item {
+    min-width: 96vw;
+    max-width: 98vw;
+    padding: 12px 4px;
+  }
+}
