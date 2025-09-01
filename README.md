@@ -41,6 +41,7 @@
     ```
     O backend estará disponível em `http://localhost:8000`.
 
+
 ### ⚠️ Google OAuth2.0
 
 Para usar os endpoints de integração com Gmail (OAuth2.0), é necessário um arquivo de credenciais do Google:
@@ -56,9 +57,22 @@ Sem esse arquivo, os endpoints `/gmail-auto-analyze` e `/gmail-auto-reply` não 
 - Ajuste as URLs de API no frontend para apontar para o backend (`http://localhost:8000`).
 - Para deploy, utilize serviços como Vercel (frontend) e serviços de nuvem para o backend.
 
+=======
+# desafio-email-ia
+
+---
+title: Email Analyzer AI
+emoji: 🤖
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
 ---
 
-Em caso de dúvidas, consulte os READMEs das pastas ou abra uma issue.
+# 🤖 Email Analyzer AI
+
+API para classificação de emails como **Produtivos** ou **Improdutivos** usando IA.
+
 
 ## 🚀 Endpoints
 
@@ -71,3 +85,26 @@ Em caso de dúvidas, consulte os READMEs das pastas ou abra uma issue.
 - `POST /auto-analyze` - Ler e analisar emails via IMAP
 - `POST /gmail-auto-analyze` - Ler e analisar emails via Gmail OAuth
 - `POST /gmail-auto-reply` - Enviar respostas automáticas via Gmail OAuth
+
+=======
+
+## 💻 Uso
+
+```python
+import requests
+
+response = requests.post(
+    "https://seu-usuario-email-analyzer-ai.hf.space/api/v1/analyze",
+    data={"text": "Preciso de um orçamento urgente"}
+)
+
+print(response.json())
+```
+
+## 🔧 Tecnologias
+
+- FastAPI
+- Transformers
+- PyTorch
+- Pydantic
+
