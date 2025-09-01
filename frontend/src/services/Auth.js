@@ -14,8 +14,15 @@ const GOOGLE_SCOPE = "https://www.googleapis.com/auth/gmail.readonly https://www
  * URI de redirecionamento após login.
  * Troque para o domínio correto em produção.
  */
-const REDIRECT_URI = "http://localhost:3000/auth/callback";
 
+
+
+/* 
+para testar o local host
+
+
+const REDIRECT_URI = "http://localhost:3000/auth/callback"; */
+const REDIRECT_URI = "https://desafio-email-ia.vercel.app/auth/callback";
 /**
  * Obtém informações do usuário autenticado via Google OAuth2.
  * @param {string} accessToken - Token de acesso do Google.

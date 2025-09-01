@@ -57,9 +57,7 @@ Sem esse arquivo, os endpoints `/gmail-auto-analyze` e `/gmail-auto-reply` não 
 - Ajuste as URLs de API no frontend para apontar para o backend (`http://localhost:8000`).
 - Para deploy, utilize serviços como Vercel (frontend) e serviços de nuvem para o backend.
 
----
-
-Em caso de dúvidas, consulte os READMEs das pastas ou abra uma issue.
+=======
 # desafio-email-ia
 
 ---
@@ -88,6 +86,8 @@ API para classificação de emails como **Produtivos** ou **Improdutivos** usand
 - `POST /gmail-auto-analyze` - Ler e analisar emails via Gmail OAuth
 - `POST /gmail-auto-reply` - Enviar respostas automáticas via Gmail OAuth
 
+=======
+
 ## 💻 Uso
 
 ```python
@@ -107,3 +107,4 @@ print(response.json())
 - Transformers
 - PyTorch
 - Pydantic
+
