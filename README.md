@@ -41,6 +41,17 @@
     ```
     O backend estará disponível em `http://localhost:8000`.
 
+
+### ⚠️ Google OAuth2.0
+
+Para usar os endpoints de integração com Gmail (OAuth2.0), é necessário um arquivo de credenciais do Google:
+
+- Baixe o arquivo de credenciais (ex: `client_secret.json`) no Google Cloud Console.
+- Coloque o arquivo na pasta apropriada do backend (ex:`backend/src/service`).
+- O arquivo deve conter o `client_id`, `client_secret` e `redirect_uris`.
+
+Sem esse arquivo, os endpoints `/gmail-auto-analyze` e `/gmail-auto-reply` não funcionarão.
+
 ### Observações
 - O frontend e o backend devem rodar simultaneamente para funcionamento completo.
 - Ajuste as URLs de API no frontend para apontar para o backend (`http://localhost:8000`).
