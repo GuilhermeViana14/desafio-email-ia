@@ -32,18 +32,22 @@ export const checkHealth = async () => {
 /**
  * Analisa o conteúdo de um email (texto).
  * @param {string} text - Texto do email a ser analisado.
+ * @param {string} style - Estilo da resposta (padrao, formal, informal, detalhada, objetiva).
+ * @param {string} senderName - Nome do remetente para personalização.
  * @returns {Promise<Object>} Dados de categoria e sugestão.
  */
-export const analyzeEmail = async (text) => {
+export const analyzeEmail = async (text, style = "padrao", senderName = null) => {
   try {
+    const formData = new FormData();
+    formData.append('text', text);
+    formData.append('style', style);
+    if (senderName) {
+      formData.append('sender_name', senderName);
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/v1/analyze`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        text: text
-      })
+      body: formData
     });
 
     if (!response.ok) {
@@ -61,14 +65,20 @@ export const analyzeEmail = async (text) => {
 /**
  * Analisa um arquivo enviado (.txt ou .pdf).
  * @param {File} file - Arquivo a ser analisado.
+ * @param {string} style - Estilo da resposta (padrao, formal, informal, detalhada, objetiva).
+ * @param {string} senderName - Nome do remetente para personalização.
  * @returns {Promise<Object>} Dados de categoria e sugestão.
  */
-export const analyzeFile = async (file) => {
+export const analyzeFile = async (file, style = "padrao", senderName = null) => {
   try {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('style', style);
+    if (senderName) {
+      formData.append('sender_name', senderName);
+    }
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/analyze-file`, {
+    const response = await fetch(`${API_BASE_URL}/api/v1/analyze`, {
       method: 'POST',
       body: formData
     });
@@ -113,18 +123,22 @@ export const getCategories = async () => {
 /**
  * Analisa múltiplos emails em lote.
  * @param {string[]} emails - Lista de textos de emails.
+ * @param {string} style - Estilo da resposta (padrao, formal, informal, detalhada, objetiva).
+ * @param {string} senderName - Nome do remetente para personalização.
  * @returns {Promise<Object>} Resultados da análise em lote.
  */
-export const batchAnalyze = async (emails) => {
+export const batchAnalyze = async (emails, style = "padrao", senderName = null) => {
   try {
+    const formData = new FormData();
+    formData.append('emails', JSON.stringify(emails));
+    formData.append('style', style);
+    if (senderName) {
+      formData.append('sender_name', senderName);
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/v1/batch-analyze`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        emails: emails
-      })
+      body: formData
     });
 
     if (!response.ok) {
