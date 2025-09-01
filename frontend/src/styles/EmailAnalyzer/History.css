@@ -1,0 +1,104 @@
+/* Seção principal do histórico de análises */
+.history-section {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Título do histórico */
+.history-section h3 {
+  color: #374151;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+/* Lista de itens do histórico */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Item individual do histórico */
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+/* Efeito hover no item do histórico */
+.history-item:hover {
+  background: #f3f4f6;
+  transform: translateX(5px);
+}
+
+/* Badge de categoria do histórico */
+.history-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Badge para emails produtivos */
+.history-badge.produtivo {
+  background: #dcfce7;
+}
+
+/* Badge para emails improdutivos */
+.history-badge.improdutivo {
+  background: #fee2e2;
+}
+
+/* Conteúdo textual do histórico */
+.history-content {
+  flex: 1;
+}
+
+.history-content p {
+  margin: 0 0 5px 0;
+  color: #374151;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.history-content small {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+/* Categoria do histórico */
+.history-category {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+/* Responsividade para telas médias */
+@media (max-width: 768px) {
+  .history-section {
+    padding: 20px;
+  }
+  
+  .history-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .history-category {
+    align-self: flex-end;
+  }
+}

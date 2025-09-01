@@ -1,0 +1,30 @@
+/* Layout principal do analisador de emails */
+.email-analyzer {
+  min-height: 100vh;
+  padding: 100px 0 40px 0;
+  position: relative;
+}
+
+/* Container centralizado para conteúdo */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Responsividade para telas médias */
+@media (max-width: 768px) {
+  .email-analyzer {
+    padding: 80px 0 20px 0;
+  }
+  .container {
+    padding: 0 15px;
+  }
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+}

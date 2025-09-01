@@ -1,0 +1,50 @@
+.api-docs-container {
+  max-width: 700px;
+  margin: 48px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(59,130,246,0.07);
+  padding: 32px 24px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin-top: 10vh;
+}
+
+.api-docs-container h1 {
+  font-size: 2rem;
+  color: #2563eb;
+  margin-bottom: 18px;
+}
+
+.api-section {
+  margin-bottom: 32px;
+}
+
+.api-section h2 {
+  font-size: 1.2rem;
+  color: #764ba2;
+  margin-bottom: 12px;
+}
+
+.api-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.api-section li {
+  margin-bottom: 16px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.api-section code, .api-section pre {
+  background: #f0fdf4;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.95rem;
+}
+
+.api-section pre {
+  white-space: pre-wrap;
+  margin-top: 8px;
+}
