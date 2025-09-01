@@ -25,12 +25,16 @@ logger = logging.getLogger(__name__)
 )
 async def analyze_email_endpoint(
     text: Optional[str] = Form(None),
-    file: Optional[UploadFile] = File(None)
+    file: Optional[UploadFile] = File(None),
+    style: Optional[str] = Form("padrao"),
+    sender_name: Optional[str] = Form(None)
 ):
     """
     Endpoint de análise.
     - **text**: Texto do email enviado como campo de formulário.
     - **file**: Arquivo (.txt ou .pdf) enviado.
+    - **style**: Estilo da resposta (padrao, formal, informal, detalhada, objetiva).
+    - **sender_name**: Nome do remetente para personalização.
     """
     start_time = datetime.now()
     
@@ -83,7 +87,7 @@ async def analyze_email_endpoint(
         # Realizar classificação e sugestão
         logger.info("Iniciando classificação com IA")
         category = classify_email(email_text)
-        suggestion = suggest_response(email_text, category)
+        suggestion = suggest_response(email_text, category, style, sender_name)
         
         # Calcular tempo de processamento
         processing_time = (datetime.now() - start_time).total_seconds()
@@ -98,7 +102,9 @@ async def analyze_email_endpoint(
                 "processing_time_seconds": round(processing_time, 2),
                 "text_length": len(email_text),
                 "processed_at": datetime.now().isoformat(),
-                "file_info": file_info
+                "file_info": file_info,
+                "style_used": style,
+                "sender_name": sender_name
             }
         }
         
@@ -126,17 +132,31 @@ async def get_categories():
         "descriptions": {
             "Produtivo": "Emails que requerem ação ou resposta específica",
             "Improdutivo": "Emails que não necessitam ação imediata"
+        },
+        "styles": ["padrao", "formal", "informal", "detalhada", "objetiva"],
+        "style_descriptions": {
+            "padrao": "Resposta padrão e balanceada",
+            "formal": "Resposta formal e protocolar",
+            "informal": "Resposta descontraída e amigável",
+            "detalhada": "Resposta completa e detalhada",
+            "objetiva": "Resposta breve e direta"
         }
     }
 
 @router.post("/batch-analyze", summary="Analisa múltiplos emails")
-async def batch_analyze(emails: List[str]):
+async def batch_analyze(
+    emails: List[str],
+    style: Optional[str] = Form("padrao"),
+    sender_name: Optional[str] = Form(None)
+):
     """
     Analisa múltiplos emails de uma vez.
     - **emails**: Lista de textos de emails para analisar
+    - **style**: Estilo da resposta (padrao, formal, informal, detalhada, objetiva)
+    - **sender_name**: Nome do remetente para personalização
     """
     start_time = datetime.now()
-    logger.info(f"Iniciando análise em lote de {len(emails)} emails")
+    logger.info(f"Iniciando análise em lote de {len(emails)} emails com estilo '{style}'")
     
     if len(emails) > 50:  # Limite de segurança
         raise HTTPException(
@@ -154,12 +174,14 @@ async def batch_analyze(emails: List[str]):
                 continue
                 
             category = classify_email(email)
-            suggestion = suggest_response(email, category)
+            suggestion = suggest_response(email, category, style, sender_name)
             results.append({
                 "index": i,
                 "email_preview": email[:50] + "..." if len(email) > 50 else email,
                 "category": category.capitalize(),
                 "suggestion": suggestion,
+                "style": style,
+                "sender_name": sender_name,
                 "status": "success"
             })
             successful += 1
@@ -183,7 +205,9 @@ async def batch_analyze(emails: List[str]):
             "total": len(emails),
             "successful": successful,
             "failed": failed,
-            "processing_time_seconds": round(processing_time, 2)
+            "processing_time_seconds": round(processing_time, 2),
+            "style_used": style,
+            "sender_name": sender_name
         }
     }
 
@@ -221,10 +245,12 @@ async def auto_analyze_emails(
     email_address: str = Form(...),
     password: str = Form(...),
     imap_server: str = Form("imap.gmail.com"),
-    max_emails: int = Form(5)
+    max_emails: int = Form(5),
+    style: Optional[str] = Form("padrao")
 ):
     """
     Lê emails não lidos da caixa de entrada e analisa automaticamente.
+    - **style**: Estilo da resposta (padrao, formal, informal, detalhada, objetiva)
     """
     try:
         emails = fetch_unread_emails(email_address, password, imap_server, max_emails)
@@ -232,30 +258,33 @@ async def auto_analyze_emails(
         for email in emails:
             text = f"{email['subject']}\n\n{email['body']}"
             category = classify_email(text)
-            suggestion = suggest_response(text, category)
+            suggestion = suggest_response(text, category, style)
             results.append({
                 "subject": email['subject'],
                 "from": email['from'],
                 "category": category.capitalize(),
                 "suggestion": suggestion,
+                "style": style,
                 "body_preview": email['body'][:100] + "..." if len(email['body']) > 100 else email['body']
             })
-        return {"results": results, "total": len(results)}
+        return {"results": results, "total": len(results), "style_used": style}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao ler emails: {str(e)}")
 
 @router.post("/gmail-auto-analyze")
 async def gmail_auto_analyze(
     access_token: str = Form(...),
-    max_results: int = Form(10)
+    max_results: int = Form(10),
+    style: Optional[str] = Form("padrao")
 ):
     """
     Recebe o token do Google e retorna os últimos emails da caixa de entrada,
     classificados como Produtivo ou Improdutivo.
+    - **style**: Estilo da resposta (padrao, formal, informal, detalhada, objetiva)
     """
     try:
         emails = fetch_latest_emails(access_token, max_results)
-        return {"results": emails, "total": len(emails)}
+        return {"results": emails, "total": len(emails), "style_used": style}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao buscar emails: {str(e)}")
     

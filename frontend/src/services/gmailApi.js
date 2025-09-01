@@ -2,12 +2,14 @@
  * Busca os últimos emails do Gmail do usuário autenticado via OAuth2.
  * @param {string} accessToken - Token de acesso do Google.
  * @param {number} maxResults - Quantidade máxima de emails a buscar.
+ * @param {string} style - Estilo da resposta (padrao, formal, informal, detalhada, objetiva).
  * @returns {Promise<Object>} Lista de emails analisados pelo backend.
  */
-export const fetchEmails = async (accessToken, maxResults = 10) => {
+export const fetchEmails = async (accessToken, maxResults = 10, style = "padrao") => {
   const formData = new FormData();
   formData.append('access_token', accessToken);
   formData.append('max_results', maxResults);
+  formData.append('style', style);
 
   const response = await fetch('https://guilhermev14-email-analyzer-ai.hf.space/api/v1/gmail-auto-analyze', {
     method: 'POST',
